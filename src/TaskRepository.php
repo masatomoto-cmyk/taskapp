@@ -7,12 +7,15 @@ namespace App;
 final class TaskRepository
 {
     public static function create(int $userId, string $title): int
-    {   if (trim($title) === '') {
-        throw new \InvalidArgumentException('title は空にできません');
-}
-    
-        $pdo = Database::connect();
+    {
+        if (trim($title) === '') {
+            throw new \InvalidArgumentException('title は空にできません');
+        }
+        if (mb_strlen($title) > 100) {
+            throw new \InvalidArgumentException('title は100文字以内にしてください');
+        }
 
+        $pdo = Database::connect();
 
         $stmt = $pdo->prepare(
             'INSERT INTO tasks (user_id, title) VALUES (:user_id, :title)'
@@ -24,5 +27,6 @@ final class TaskRepository
         ]);
 
         return (int) $pdo->lastInsertId();
+        
     }
 }
