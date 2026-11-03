@@ -1,0 +1,13 @@
+{
+    "name": "masatomo/taskapp",
+    "description": "認証付きタスク管理アプリ（素のPHP）",
+    "type": "project",
+    "require": {
+        "php": ">=8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

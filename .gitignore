@@ -1,0 +1,9 @@
+.DS_Store
+/vendor/
+# DB接続情報は公開しない。config.example.php をコピーして使う
+/config/config.php
+# 個人のエディタ設定
+/.vscode/
+
+# 購入した教材のメモ（規約でコピー・共有禁止。絶対に push しない）
+/docs/private/
