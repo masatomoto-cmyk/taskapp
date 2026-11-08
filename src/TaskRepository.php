@@ -27,6 +27,20 @@ final class TaskRepository
         ]);
 
         return (int) $pdo->lastInsertId();
-        
+    }
+
+    public static function findByUser(int $userId): array
+    {
+        $pdo = Database::connect();
+
+        $stmt = $pdo->prepare(
+            'SELECT id, title, status, due_date, created_at
+                FROM tasks
+                WHERE user_id = :user_id
+                ORDER BY created_at DESC, id DESC'
+        );
+        $stmt->execute([':user_id' => $userId]);
+
+        return $stmt->fetchAll();
     }
 }
