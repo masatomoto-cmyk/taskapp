@@ -30,7 +30,8 @@ final class TaskRepository
     }
 
     public static function findByUser(int $userId): array
-    {
+    {   
+        
         $pdo = Database::connect();
 
         $stmt = $pdo->prepare(
@@ -42,5 +43,29 @@ final class TaskRepository
         $stmt->execute([':user_id' => $userId]);
 
         return $stmt->fetchAll();
+    }
+    public static function updateTitle(int $id, int $userId, string $title): bool
+    {
+        if (trim($title) === '') {
+            throw new \InvalidArgumentException('title は空にできません');
+        }
+        if (mb_strlen($title) > 100) {
+            throw new \InvalidArgumentException('title は100文字以内にしてください');
+        }
+
+        $pdo = Database::connect();
+
+        $stmt = $pdo->prepare(
+        'UPDATE tasks SET title = :title WHERE id = :id AND user_id = :user_id
+'
+    );
+
+        $stmt->execute([
+            ':title'  => $title,
+            ':id'      => $id,
+            ':user_id' => $userId,
+        ]);
+
+        return $stmt->rowCount() > 0;
     }
 }
