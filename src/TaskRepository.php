@@ -61,11 +61,29 @@ final class TaskRepository
     );
 
         $stmt->execute([
-            ':title'  => $title,
             ':id'      => $id,
             ':user_id' => $userId,
+            ':title' => $title
         ]);
 
         return $stmt->rowCount() > 0;
+    }
+    public static function delete(int $id, int $userId): bool
+    {
+
+        $pdo = Database::connect();
+
+        $stmt = $pdo->prepare(
+        'DELETE FROM tasks WHERE id = :id AND user_id = :user_id'
+        
+    );
+
+    $stmt->execute([
+            ':id'      => $id,
+            ':user_id' => $userId,
+            
+        ]);
+
+    return $stmt->rowCount() > 0;
     }
 }
